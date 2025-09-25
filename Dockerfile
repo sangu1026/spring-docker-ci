@@ -4,20 +4,20 @@
 FROM gradle:8.5-jdk21 AS build
 WORKDIR /app
 
-# gradlew 및 wrapper 복사
+# gradlew와 wrapper 먼저 복사
 COPY gradlew .
 COPY gradle ./gradle
 
-# gradlew 실행 권한 추가
+# gradlew 실행 권한 부여
 RUN chmod +x gradlew
 
 # 빌드 스크립트 복사
 COPY build.gradle settings.gradle ./
 
-# 의존성 다운로드 (캐시 최적화)
+# 의존성 캐시 (코드 바뀌어도 캐시 활용 가능)
 RUN ./gradlew dependencies --no-daemon
 
-# 소스 전체 복사
+# 전체 소스 복사
 COPY . .
 
 # 빌드 (테스트 제외)
