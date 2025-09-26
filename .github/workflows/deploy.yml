@@ -31,7 +31,6 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/spring-app:latest
-            docker stop spring-app || true
-            docker rm spring-app || true
-            docker run -d --name spring-app -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/spring-app:latest
+            cd ~/app
+            docker-compose pull spring-app
+            docker-compose up -d spring-app
